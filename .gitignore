@@ -5,3 +5,7 @@ dist-ssr
 .DS_Store
 *.tsbuildinfo
 .claude/
+.env
+.env.*
+!.env.example
+server/data/
