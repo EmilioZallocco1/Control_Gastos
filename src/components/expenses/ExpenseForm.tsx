@@ -14,12 +14,12 @@ interface ExpenseFormProps {
   initialExpense?: Expense | null
 }
 
-const EMPTY_FORM = {
+const getEmptyForm = () => ({
   description: '',
   amount: '',
   category: 'otros' as CategoryId,
   date: todayIso(),
-}
+})
 
 export function ExpenseForm({ open, onClose, onSubmit, initialExpense }: ExpenseFormProps) {
   const [form, setForm] = useState(() =>
@@ -30,13 +30,13 @@ export function ExpenseForm({ open, onClose, onSubmit, initialExpense }: Expense
           category: initialExpense.category,
           date: initialExpense.date,
         }
-      : EMPTY_FORM,
+      : getEmptyForm(),
   )
 
   const isEditing = Boolean(initialExpense)
 
   const handleClose = () => {
-    setForm(EMPTY_FORM)
+    setForm(getEmptyForm())
     onClose()
   }
 
@@ -51,7 +51,7 @@ export function ExpenseForm({ open, onClose, onSubmit, initialExpense }: Expense
       category: form.category,
       date: form.date,
     })
-    setForm(EMPTY_FORM)
+    setForm(getEmptyForm())
   }
 
   return (
