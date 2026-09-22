@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-canvas text-slate-800 antialiased;
+}
+
+::selection {
+  @apply bg-brand-200 text-brand-900;
+}
+
+/* Scrollbar styling for the expense list */
+.styled-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.styled-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.styled-scroll::-webkit-scrollbar-thumb {
+  @apply bg-slate-200 rounded-full;
+}
+.styled-scroll::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-300;
+}
