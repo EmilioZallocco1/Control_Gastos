@@ -25,19 +25,25 @@ No se usó una base de datos "de verdad" (Postgres, SQLite, etc.) a propósito: 
 ```
 server/
 ├── src/
-│   ├── index.ts            # arranca Express + el bot
-│   ├── store.ts            # lectura/escritura de server/data/expenses.json
-│   ├── summary.ts          # totales de hoy / del mes (para /hoy y /mes)
-│   ├── categories.ts       # labels + alias de categorías ("uber" → transporte, etc.)
-│   ├── types.ts            # tipos compartidos (duplican los del frontend)
+│   ├── app.ts               # arma la app de Express (sin levantar el puerto ni el bot)
+│   ├── index.ts             # arranca Express (app.ts) + el bot
+│   ├── store.ts             # lectura/escritura de server/data/expenses.json
+│   ├── summary.ts           # totales de hoy / del mes (para /hoy y /mes)
+│   ├── categories.ts        # labels + alias de categorías ("uber" → transporte, etc.)
+│   ├── categories.test.ts   # tests de resolveCategory
+│   ├── types.ts             # tipos compartidos (duplican los del frontend)
 │   ├── routes/
-│   │   └── expenses.ts     # GET/POST/PUT/DELETE /api/expenses
+│   │   ├── expenses.ts      # GET/POST/PUT/DELETE /api/expenses
+│   │   └── expenses.test.ts # tests de la API con Supertest
 │   └── telegram/
-│       ├── bot.ts          # comandos del bot (/start, /ayuda, /gasto, /hoy, /mes)
-│       └── parser.ts       # interpreta el texto de "/gasto ..."
-├── data/expenses.json      # "base de datos" (no se sube a git)
+│       ├── bot.ts           # comandos del bot (/start, /ayuda, /gasto, /hoy, /mes)
+│       ├── parser.ts        # interpreta el texto de "/gasto ..."
+│       └── parser.test.ts   # tests del parser
+├── data/expenses.json       # "base de datos" (no se sube a git)
 └── .env.example
 ```
+
+`app.ts` está separado de `index.ts` para poder testear la API sin levantar el bot ni un puerto real — ver [docs/testing.md](testing.md) para el detalle de cómo correr los tests.
 
 En el frontend:
 - `src/api/expenses.ts`: cliente HTTP hacia el backend.
@@ -133,11 +139,11 @@ A partir de ahí, el bot ignora mensajes de cualquier otro chat.
 /gasto 3500 comida Supermercado Coto
 /gasto 1200 uber Vuelta a casa
 /gasto 850 nafta
-/gasto 500 Alquiler cochera
+/gasto 500 Regalo cumpleaños
 ```
 
 - El **monto** es siempre lo primero (acepta coma o punto decimal).
-- La **categoría** es la segunda palabra, si la reconoce. Si no matchea ninguna categoría conocida (ej. "Alquiler" en el último ejemplo no es una categoría, es parte de la descripción), el gasto queda en **Otros** y esa palabra pasa a formar parte de la descripción.
+- La **categoría** es la segunda palabra, si la reconoce. Si no matchea ninguna categoría conocida (ej. "Regalo" en el último ejemplo no es una categoría, es parte de la descripción), el gasto queda en **Otros** y esa palabra pasa a formar parte de la descripción.
 - Categorías reconocidas (y algunos alias): `comida` (super, supermercado, almuerzo, cena), `transporte` (auto, nafta, colectivo, uber), `vivienda` (alquiler, expensas), `servicios` (luz, gas, agua, internet, telefono), `entretenimiento` (ocio, salidas), `salud` (farmacia, medico), `educacion` (curso, facultad), `compras` (ropa), `otros`.
 - La fecha siempre es la del día en que mandás el mensaje (el bot no interpreta fechas del texto).
 

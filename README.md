@@ -46,6 +46,13 @@ npm run build
 npm run preview
 ```
 
+## Testing
+
+- **Automatizado** (parser del bot + API REST): `cd server && npm test`.
+- **Manual** (web + bot de Telegram): planilla de casos de prueba en [docs/casos-de-prueba-manuales.xlsx](docs/casos-de-prueba-manuales.xlsx).
+
+Detalle completo de la estrategia de testing en [docs/testing.md](docs/testing.md).
+
 ## Funcionalidades
 
 - Alta, edición y borrado de gastos (descripción, monto, categoría, fecha) desde la web.

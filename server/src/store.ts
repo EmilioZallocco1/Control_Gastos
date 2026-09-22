@@ -4,8 +4,12 @@ import { fileURLToPath } from 'node:url'
 import type { Expense } from './types.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const DATA_DIR = path.join(__dirname, '..', 'data')
-const DATA_FILE = path.join(DATA_DIR, 'expenses.json')
+
+// Configurable para que los tests puedan apuntar a un archivo temporal
+// en vez de pisar los gastos reales del usuario.
+const DATA_FILE = process.env.EXPENSES_DATA_FILE
+  ? path.resolve(process.env.EXPENSES_DATA_FILE)
+  : path.join(__dirname, '..', 'data', 'expenses.json')
 
 let expenses: Expense[] = []
 let loaded = false
@@ -13,7 +17,7 @@ let writeQueue: Promise<void> = Promise.resolve()
 
 async function ensureLoaded(): Promise<void> {
   if (loaded) return
-  await fs.mkdir(DATA_DIR, { recursive: true })
+  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true })
   try {
     const raw = await fs.readFile(DATA_FILE, 'utf-8')
     expenses = JSON.parse(raw) as Expense[]
