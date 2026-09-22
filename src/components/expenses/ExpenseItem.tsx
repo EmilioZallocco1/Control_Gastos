@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from 'lucide-react'
+import { Pencil, Send, Trash2 } from 'lucide-react'
 import { CATEGORIES } from '../../utils/categories'
 import { formatCurrency, formatDayMonth } from '../../utils/formatters'
 import type { Expense } from '../../types/expense'
@@ -19,7 +19,14 @@ export function ExpenseItem({ expense, onEdit, onDelete }: ExpenseItemProps) {
         <Icon size={18} />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-semibold text-slate-700">{expense.description}</p>
+        <p className="flex items-center gap-1.5 truncate text-sm font-semibold text-slate-700">
+          {expense.description}
+          {expense.source === 'telegram' && (
+            <span title="Agregado desde Telegram" className="inline-flex shrink-0">
+              <Send size={12} className="text-sky-500" />
+            </span>
+          )}
+        </p>
         <p className="text-xs text-slate-400">
           {meta.label} · {formatDayMonth(expense.date)}
         </p>

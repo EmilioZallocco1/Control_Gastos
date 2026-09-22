@@ -19,7 +19,7 @@ export interface Expense {
   /** ISO date string, e.g. 2026-09-22 */
   date: string
   createdAt: number
-  source?: ExpenseSource
+  source: ExpenseSource
 }
 
 export type ExpenseInput = Omit<Expense, 'id' | 'createdAt'>
