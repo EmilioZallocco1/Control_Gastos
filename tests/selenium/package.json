@@ -1,0 +1,25 @@
+{
+  "name": "sistema-gastos-selenium",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Selenium WebDriver E2E tests for Sistema Gastos",
+  "scripts": {
+    "test": "node run-all.js",
+    "test:tc01": "node tc-01-dashboard-loads.test.js",
+    "test:tc02": "node tc-02-add-expense-happy-path.test.js",
+    "test:tc03": "node tc-03-form-validation-empty-fields.test.js",
+    "test:tc04": "node tc-04-modal-close-behaviors.test.js",
+    "test:tc05": "node tc-05-edit-expense.test.js",
+    "test:tc06": "node tc-06-delete-expense.test.js",
+    "test:tc07": "node tc-07-month-navigation.test.js",
+    "test:tc08": "node tc-08-summary-cards.test.js",
+    "test:tc09": "node tc-09-edge-cases.test.js",
+    "test:tc10": "node tc-10-backend-offline.test.js",
+    "test:tc11": "node tc-11-expense-sort-order.test.js",
+    "test:tc12": "node tc-12-month-filter.test.js"
+  },
+  "dependencies": {
+    "selenium-webdriver": "^4.21.0"
+  }
+}
